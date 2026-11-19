@@ -299,6 +299,15 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // ---------------- Cute Illustration Helper ----------------
+  function getCuteVisualHtml(word, fallbackEmoji, sizeClass = "art-md", context = "") {
+    const svg = window.ENG_ILLUSTRATIONS && window.ENG_ILLUSTRATIONS.getWordSvg(word, context);
+    if (svg) {
+      return `<div class="cute-art ${sizeClass}">${svg}</div>`;
+    }
+    return `<div class="vocab-emoji">${fallbackEmoji || "🌟"}</div>`;
+  }
+
   // ---------------- Home View ----------------
   function getAllWords() {
     const list = [];
@@ -314,7 +323,7 @@
     const box = document.getElementById("daily-word-box");
     if (!box) return;
     box.innerHTML = `
-      <span class="daily-emoji">${pick.emoji}</span>
+      ${getCuteVisualHtml(pick.word, pick.emoji, "art-sm")}
       <div>
         <div class="daily-word-en">${pick.word} <span style="font-size:1rem">🔊</span></div>
         <div class="daily-word-meta">
@@ -335,16 +344,18 @@
       .map(
         (u) => `
       <button class="unit-card" data-unit-id="${u.id}" style="--u-color:${u.themeColor}; --u-soft:${u.bgSoft}" type="button">
-        <div class="unit-card-top">
-          <div class="unit-icon-bubble">${u.icon}</div>
-          <span class="unit-num-badge">บทที่ ${u.number}</span>
+        <div class="unit-cover-wrap">
+          <img class="unit-cover-img" src="${u.image}" alt="${u.titleTh}" loading="lazy" />
+          <span class="unit-num-badge unit-num-float">บทที่ ${u.number}</span>
         </div>
-        <h3 class="unit-title-en">${u.titleEn}</h3>
-        <div class="unit-title-th">${u.titleTh}</div>
-        <p class="unit-desc">${u.description}</p>
-        <div class="unit-footer">
-          <span>🃏 ${u.words.length} คำศัพท์ • 💬 ${u.dialogues.length} ประโยค</span>
-          <span class="unit-go">เริ่มเรียน →</span>
+        <div class="unit-card-body">
+          <h3 class="unit-title-en">${u.titleEn}</h3>
+          <div class="unit-title-th">${u.titleTh}</div>
+          <p class="unit-desc">${u.description}</p>
+          <div class="unit-footer">
+            <span>🃏 ${u.words.length} คำศัพท์ • 💬 ${u.dialogues.length} ประโยค</span>
+            <span class="unit-go">เริ่มเรียน →</span>
+          </div>
         </div>
       </button>
     `
@@ -370,7 +381,7 @@
 
     const heading = document.getElementById("unit-heading");
     heading.innerHTML = `
-      <span class="unit-heading-ico">${unit.icon}</span>
+      <img class="unit-heading-thumb" src="${unit.image}" alt="${unit.titleTh}" />
       <div>
         <h2>Unit ${unit.number}: ${unit.titleEn}</h2>
         <span>${unit.titleTh}</span>
@@ -400,15 +411,12 @@
   }
 
   function renderWordVisual(w) {
-    if (w.swatch) {
-      const border = w.borderSwatch ? `border: 3px solid ${w.borderSwatch};` : "";
-      return `<div class="color-swatch-big" style="background:${w.swatch}; ${border}"></div>`;
-    }
+    const art = getCuteVisualHtml(w.word, w.emoji, "art-md");
     if (w.count && w.countEmoji) {
       const items = w.countEmoji.repeat(w.count);
-      return `<div class="vocab-emoji">${w.emoji}</div><div class="count-visual">${items}</div>`;
+      return `${art}<div class="count-visual">${items}</div>`;
     }
-    return `<div class="vocab-emoji">${w.emoji}</div>`;
+    return art;
   }
 
   function renderUnitVocab(unit) {
@@ -551,13 +559,11 @@
     const w = unit.words[state.spotlightIdx];
     document.getElementById("spot-counter").textContent = `${state.spotlightIdx + 1} / ${unit.words.length}`;
     const vis = document.getElementById("spot-visual");
-    if (w.swatch) {
-      const border = w.borderSwatch ? `border:4px solid ${w.borderSwatch};` : "";
-      vis.innerHTML = `<div class="color-swatch-big" style="width:110px;height:110px;background:${w.swatch};${border}"></div>`;
-    } else if (w.count && w.countEmoji) {
-      vis.innerHTML = `<div><div>${w.emoji}</div><div style="font-size:2rem;margin-top:4px">${w.countEmoji.repeat(w.count)}</div></div>`;
+    const art = getCuteVisualHtml(w.word, w.emoji, "art-xl");
+    if (w.count && w.countEmoji) {
+      vis.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center">${art}<div style="font-size:1.85rem;margin-top:6px">${w.countEmoji.repeat(w.count)}</div></div>`;
     } else {
-      vis.textContent = w.emoji;
+      vis.innerHTML = art;
     }
     document.getElementById("spot-word").textContent = w.word;
     document.getElementById("spot-reading").textContent = w.reading;
@@ -579,7 +585,7 @@
         (item, idx) => `
       <button class="abc-key ${idx === state.abcIdx ? "active" : ""}" data-aidx="${idx}" style="--key-color:${item.color}" type="button">
         <span class="abc-key-letters">${item.letter}${item.lower}</span>
-        <span class="abc-key-emoji">${item.emoji}</span>
+        <span class="abc-key-art">${getCuteVisualHtml(item.word, item.emoji, "art-xs", "abc")}</span>
       </button>
     `
       )
@@ -600,7 +606,7 @@
     document.getElementById("ph-phonics").textContent = `เสียงโฟนิกส์: ${item.phonics}`;
     document.getElementById("ph-big").textContent = item.letter;
     document.getElementById("ph-small").textContent = item.lower;
-    document.getElementById("ph-emoji").textContent = item.emoji;
+    document.getElementById("ph-emoji").innerHTML = getCuteVisualHtml(item.word, item.emoji, "art-lg", "abc");
     document.getElementById("ph-word").textContent = item.word;
     document.getElementById("ph-reading").textContent = `อ่านว่า: ${item.reading}`;
     document.getElementById("ph-thai").textContent = item.thai;
@@ -792,11 +798,7 @@
             .map(
               (c, i) => `
             <button class="quiz-option" data-cidx="${i}" type="button">
-              ${
-                c.swatch
-                  ? `<span class="color-swatch-big" style="width:58px;height:58px;margin:4px 0;background:${c.swatch};${c.borderSwatch ? `border:3px solid ${c.borderSwatch};` : ""}"></span>`
-                  : `<span class="opt-emoji">${c.emoji}</span>`
-              }
+              ${getCuteVisualHtml(c.word, c.emoji, "art-md")}
               <span class="opt-th">${c.thai}</span>
             </button>
           `
@@ -896,9 +898,7 @@
           if (card.kind === "word") {
             btn.innerHTML = `<span class="mem-word">${card.item.word}</span><span class="mem-th reading-guide">${card.item.reading}</span>`;
           } else {
-            btn.innerHTML = card.item.swatch
-              ? `<span class="color-swatch-big" style="width:48px;height:48px;margin:2px 0;background:${card.item.swatch};${card.item.borderSwatch ? `border:2px solid ${card.item.borderSwatch};` : ""}"></span><span class="mem-th">${card.item.thai}</span>`
-              : `<span class="mem-emoji">${card.item.emoji}</span><span class="mem-th">${card.item.thai}</span>`;
+            btn.innerHTML = `${getCuteVisualHtml(card.item.word, card.item.emoji, "art-sm")}<span class="mem-th">${card.item.thai}</span>`;
           }
 
           playSfx("pop");
@@ -1008,11 +1008,7 @@
             isPictureToWord
               ? `
             <div class="quiz-prompt-visual">
-              ${
-                target.swatch
-                  ? `<span class="color-swatch-big" style="display:inline-block;width:96px;height:96px;background:${target.swatch};${target.borderSwatch ? `border:4px solid ${target.borderSwatch};` : ""}"></span>`
-                  : target.emoji
-              }
+              ${getCuteVisualHtml(target.word, target.emoji, "art-lg")}
             </div>
             <p class="quiz-prompt-title">ภาพนี้ (${target.thai}) ภาษาอังกฤษคือคำว่าอะไร?</p>
           `

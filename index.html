@@ -25,7 +25,7 @@
   <header class="site-header">
     <div class="header-inner">
       <button class="brand" id="btn-brand-home" type="button" aria-label="กลับหน้าหลัก">
-        <span class="brand-badge">🦉</span>
+        <span class="brand-badge"><img class="brand-badge-img" src="images/hero-mascot.jpg" alt="น้องฮูก Ollie" /></span>
         <span class="brand-text">
           <span class="brand-title">EngFun <span class="grade-pill">ป.1</span></span>
           <span class="brand-sub">สนุกคิด เก่งอังกฤษ</span>
@@ -91,42 +91,10 @@
             <div class="speech-bubble" id="mascot-speech">
               สวัสดีจ้า! กดที่การ์ดเพื่อฟังเสียงภาษาอังกฤษได้เลยนะ 🔊
             </div>
-            <!-- Friendly Cute Owl SVG Mascot -->
-            <svg class="owl-svg" viewBox="0 0 180 180" width="160" height="160" aria-label="น้องฮูก Ollie">
-              <!-- Body -->
-              <ellipse cx="90" cy="112" rx="56" ry="54" fill="#6C5CE7" />
-              <ellipse cx="90" cy="122" rx="38" ry="36" fill="#FFF7DF" />
-              <!-- Belly Feathers -->
-              <path d="M72 118 Q78 126 84 118 M96 118 Q102 126 108 118 M84 132 Q90 140 96 132" stroke="#E5C890" stroke-width="3.5" stroke-linecap="round" fill="none" />
-              <!-- Wings -->
-              <ellipse cx="34" cy="112" rx="16" ry="30" transform="rotate(14 34 112)" fill="#5849C7" />
-              <ellipse cx="146" cy="112" rx="16" ry="30" transform="rotate(-14 146 112)" fill="#5849C7" />
-              <!-- Ears / Horns -->
-              <polygon points="45,58 55,28 74,48" fill="#5849C7" />
-              <polygon points="135,58 125,28 106,48" fill="#5849C7" />
-              <!-- Head -->
-              <circle cx="90" cy="70" r="46" fill="#7D6DF2" />
-              <!-- Grad Cap / Cute Star -->
-              <polygon points="90,14 94,24 105,24 96,30 99,40 90,34 81,40 84,30 75,24 86,24" fill="#FFD32A" />
-              <!-- Eyes -->
-              <circle cx="71" cy="70" r="18" fill="#FFFFFF" />
-              <circle cx="109" cy="70" r="18" fill="#FFFFFF" />
-              <g class="owl-eyes">
-                <circle cx="73" cy="70" r="9" fill="#2D3436" />
-                <circle cx="107" cy="70" r="9" fill="#2D3436" />
-                <circle cx="76" cy="66" r="3.5" fill="#FFFFFF" />
-                <circle cx="110" cy="66" r="3.5" fill="#FFFFFF" />
-              </g>
-              <!-- Cheeks -->
-              <ellipse cx="52" cy="84" rx="8" ry="5" fill="#FF85A2" opacity="0.7" />
-              <ellipse cx="128" cy="84" rx="8" ry="5" fill="#FF85A2" opacity="0.7" />
-              <!-- Beak -->
-              <polygon points="83,78 97,78 90,92" fill="#FFA502" />
-              <!-- Feet -->
-              <ellipse cx="70" cy="164" rx="12" ry="7" fill="#FFA502" />
-              <ellipse cx="110" cy="164" rx="12" ry="7" fill="#FFA502" />
-            </svg>
-            <div class="mascot-hint">กดที่น้องฮูกเพื่อฟังคำทักทาย!</div>
+            <div class="mascot-frame">
+              <img class="mascot-img" src="images/hero-mascot.jpg" alt="น้องฮูก Ollie มาสคอตสอนภาษาอังกฤษ ป.1" />
+            </div>
+            <div class="mascot-hint">✨ กดที่น้องฮูกเพื่อฟังคำทักทาย!</div>
           </div>
         </div>
       </div>
@@ -350,6 +318,7 @@
   </footer>
 
   <script src="data.js"></script>
+  <script src="illustrations.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
